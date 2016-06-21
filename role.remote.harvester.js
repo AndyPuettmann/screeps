@@ -11,32 +11,33 @@ var roleRemoteHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        // not harvesting + 0 energy
+
         if(!creep.memory.harvesting && creep.carry.energy == 0) {
             creep.memory.harvesting = true;
-        }
-        // not harvesting + 0 energy
-        if(creep.memory.harvesting && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.harvesting = false;
-        }
+	    }
+	    if(creep.memory.harvesting && creep.carry.energy == creep.carryCapacity) {
+	        creep.memory.harvesting = false;
+	    }
+        
+        
         // IS Harvesting
         if(creep.memory.harvesting) {
             // NOT in ROOM
-            if(creep.room.name !== Game.flags.Colony1.roomName) {
+            if(creep.room.name !== Game.flags.Colony1.pos.roomName) {
                 creep.moveTo(Game.flags.Colony1);
             }
             else {
                 // IN ROOM
                 var sources = creep.room.find(FIND_SOURCES);
-                if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[1]);
+                if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0]);
                 }
             }
         }
         // NOT Harvesting
         else {
             // NOT in ROOM
-            if(creep.room.name !== Game.flags.Home1.roomName) {
+            if(creep.room.name !== Game.flags.Home1.pos.roomName) {
                 creep.moveTo(Game.flags.Home1);
             }
             // IN ROOM
