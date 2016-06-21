@@ -11,7 +11,7 @@ var roleClaimer = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        if(creep.room.name !== Game.flags.Colony1.roomName) {
+        if(creep.room.name !== Game.flags.Colony1.pos.roomName) {
 
             creep.moveTo(Game.flags.Colony1);
         }
