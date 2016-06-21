@@ -1,43 +1,25 @@
-var roleBuilder = {
+/*
+ * Module code goes here. Use 'module.exports' to export things:
+ * module.exports.thing = 'a thing';
+ *
+ * You can import it from another modules like this:
+ * var mod = require('role.claimer');
+ * mod.thing == 'a thing'; // true
+ */
+
+var roleClaimer = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        if(creep.room.name !== Game.flags.Colony1.pos.roomName) {
 
-	    if(creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-	    }
-	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.building = true;
-	    }
-
-	    if(creep.memory.building) {
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
-                }
-            } 
-            else {
-                var closestDamagedStructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                   filter: (structure) => structure.hits < structure.hitsMax
-                });
-                if(closestDamagedStructure) {
-                    if(creep.repair(closestDamagedStructure) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(closestDamagedStructure);
-                    }
-                }
-                else {
-                    creep.moveTo(Game.flags.BuilderPark);
-                }
-            }
-	    }
-	    else {
-	        var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
-            }
-	    }
-	}
+            creep.moveTo(Game.flags.Colony1);
+        }
+        else {
+            if(!creep.pos.isNearTo(creep.room.controller)) creep.moveTo(creep.room.controller);
+            else creep.reserveController(creep.room.controller);
+        }
+    }
 };
 
-module.exports = roleBuilder;
+module.exports = roleClaimer;
